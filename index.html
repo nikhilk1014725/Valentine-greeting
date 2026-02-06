@@ -4,111 +4,386 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Special Question</title>
+    <title>For Komal ❤️</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Nunito:wght@400;700&family=Pacifico&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
+        :root {
+            --primary-color: #ff4d6d;
+            --secondary-color: #ff8fa3;
+            --bg-color-1: #ffdae0;
+            --bg-color-2: #ffb3c1;
+            --glass-bg: rgba(255, 255, 255, 0.4);
+            --glass-border: rgba(255, 255, 255, 0.8);
+            --text-color: #590d22;
+            --terminal-bg: #1e1e1e;
+            --terminal-text: #00ff41;
+        }
+
         body {
-            background-color: #ffdae0;
-            /* Light Pink */
-            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(135deg, var(--bg-color-1), var(--bg-color-2));
+            font-family: 'Nunito', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
             overflow: hidden;
+            position: relative;
         }
 
+        /* Floating Hearts Background */
+        .floating-hearts {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .heart {
+            position: absolute;
+            bottom: -100px;
+            font-size: 2rem;
+            color: rgba(255, 255, 255, 0.5);
+            animation: floatUp 10s linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: translateY(-120vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Terminal Intro */
+        #terminal-intro {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--terminal-bg);
+            color: var(--terminal-text);
+            font-family: 'Fira Code', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 100;
+            transition: opacity 1s ease-out;
+        }
+
+        .code-line {
+            font-size: 1.2rem;
+            margin: 10px;
+            opacity: 0;
+            white-space: pre-wrap;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 1.2rem;
+            background: var(--terminal-text);
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
+
+        /* Main Glass Card */
         .container {
             text-align: center;
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            padding: 50px;
+            border-radius: 30px;
+            border: 2px solid var(--glass-border);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+            max-width: 90%;
+            width: 400px;
+            /* Fixed width helps with calculation */
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s, transform 1s;
+            position: relative;
+            /* Essential for containing the absolute button */
+            overflow: hidden;
+            /* Ensure it never visually escapes border-radius */
+        }
+
+        .container.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         h1 {
-            color: #d63384;
-            font-size: 2rem;
+            color: var(--text-color);
+            font-size: 2.5rem;
+            font-family: 'Pacifico', cursive;
+            margin-bottom: 20px;
+            line-height: 1.4;
+            text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.5);
         }
 
         .gif-container img {
-            width: 200px;
-            margin-bottom: 20px;
+            width: 250px;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .gif-container img:hover {
+            transform: scale(1.05);
         }
 
         .btn-container {
             display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 20px;
-            position: relative;
-            height: 50px;
+            justify-content: space-between;
+            /* Push apart */
+            align-items: center;
+            width: 100%;
+            max-width: 300px;
+            /* Constrain width for better spacing */
+            margin: 30px auto 0;
+            /* Removed position: relative to allow child absolute button to reference .container */
+            height: 60px;
         }
 
         button {
-            padding: 10px 25px;
-            font-size: 1.2rem;
+            padding: 12px 35px;
+            font-size: 1.3rem;
             border: none;
-            border-radius: 10px;
+            border-radius: 50px;
             cursor: pointer;
-            transition: transform 0.2s;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 10;
+            /* Ensure clickability */
         }
 
         #yesBtn {
-            background-color: #ff4d6d;
+            background-color: var(--primary-color);
             color: white;
-        }
-
-        #noBtn {
-            background-color: #6c757d;
-            color: white;
-            position: absolute;
+            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4);
+            /* Removed relative/z-index specific hacks, relying on flex */
         }
 
         #yesBtn:hover {
-            transform: scale(1.1);
+            transform: scale(1.1) translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 77, 109, 0.6);
+        }
+
+        #noBtn {
+            background-color: white;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            position: relative;
+            /* Start relative so it sits in the flexbox correctly */
+            transition: left 0.2s, top 0.2s;
+            /* Faster movement transition */
+        }
+
+        /* Success Message Styling */
+        .hidden {
+            display: none;
         }
     </style>
 </head>
 
 <body>
 
-    <div class="container" id="mainContainer">
+    <!-- Floating Hearts Background -->
+    <div class="floating-hearts" id="heartsContainer"></div>
+
+    <!-- Terminal Intro -->
+    <div id="terminal-intro">
+        <div class="code-line" id="line1"></div>
+        <div class="code-line" id="line2"></div>
+        <div class="code-line" id="line3"></div>
+    </div>
+
+    <!-- Main Card -->
+    <div class="container hidden-card" id="mainContainer">
         <div class="gif-container">
-            <!-- Replace this URL with any cute GIF you like -->
-            <img id="displayGif"
-                src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHIyeW9ueWszcmZxeW56bm56bm56bm56bm56bm56bm56bm56JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1z/KztT2c4u8mYYUiCiS0/giphy.gif"
-                alt="Cute bear">
+            <img id="displayGif" src="https://gifdb.com/images/high/cute-love-bear-roses-ou7zho5oosxnpo6k.gif"
+                alt="Cute Bear">
         </div>
         <h1 id="questionText">Komal, will you be my Valentine?</h1>
 
         <div class="btn-container">
-            <button id="yesBtn">Yes</button>
+            <button id="yesBtn">Yes! ❤️</button>
             <button id="noBtn">No</button>
         </div>
     </div>
 
     <script>
+        // --- Configuration ---
+        const terminalText1 = "> LOVE_CONFESSION_V2.0...";
+        const terminalText2 = "> Found: KOMAL";
+        // Removed 3rd line to speed up
+
+        const successGifUrl = "https://media.tenor.com/gUiu1zyxfzYAAAAi/bear-kiss-bear-kisses.gif"; // Cute kissing bears
+        const successMessage = "Starting infinite loop: Love_you_always! ❤️<br><span style='font-size: 1.2rem; font-family: Nunito'>You are the best thing ever happened in my life!</span>";
+
+        // --- Elements ---
+        const terminalIntro = document.getElementById('terminal-intro');
+        const mainContainer = document.getElementById('mainContainer');
         const noBtn = document.getElementById('noBtn');
         const yesBtn = document.getElementById('yesBtn');
         const questionText = document.getElementById('questionText');
         const displayGif = document.getElementById('displayGif');
+        const heartsContainer = document.getElementById('heartsContainer');
 
-        // Function to move the "No" button
+        // --- Terminal Intro Animation ---
+        async function typeText(elementId, text, speed = 30) { // Faster typing speed
+            const element = document.getElementById(elementId);
+            for (let i = 0; i < text.length; i++) {
+                element.textContent += text.charAt(i);
+                await new Promise(r => setTimeout(r, speed));
+            }
+            // Add blinking cursor at end of line
+            element.innerHTML += '<span class="cursor"></span>';
+        }
+
+        async function runIntro() {
+            // Speed adjustments
+            await typeText('line1', terminalText1, 20);
+            await new Promise(r => setTimeout(r, 200));
+            await typeText('line2', terminalText2, 20);
+            await new Promise(r => setTimeout(r, 400));
+            // Removed 3rd line
+
+            // Fade out terminal fast
+            terminalIntro.style.opacity = '0';
+            setTimeout(() => {
+                terminalIntro.style.display = 'none';
+                mainContainer.classList.add('visible');
+                initFloatingHearts();
+            }, 500);
+        }
+
+        // Start Intro
+        window.onload = runIntro;
+
+
+        // --- "No" Button Runaway Logic ---
         noBtn.addEventListener('mouseover', () => {
-            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
-            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
 
-            noBtn.style.left = x + 'px';
-            noBtn.style.top = y + 'px';
+            // On first hover, switch to absolute positioning relative to container
+            if (noBtn.style.position !== 'absolute') {
+                noBtn.style.position = 'absolute';
+            }
+
+            // Calculate boundaries within the mainContainer
+            // We subtract the button size and some padding to keep it inside
+            const containerWidth = mainContainer.offsetWidth; // e.g., 400 plus padding
+            const containerHeight = mainContainer.offsetHeight;
+            const btnWidth = noBtn.offsetWidth;
+            const btnHeight = noBtn.offsetHeight;
+
+            // Safe range with extra padding to ensure it stays well inside
+            const padding = 30; // 30px buffer from edges
+            const maxX = containerWidth - btnWidth - padding;
+            const maxY = containerHeight - btnHeight - padding;
+
+            const randomX = Math.max(padding, Math.random() * maxX);
+            const randomY = Math.max(padding, Math.random() * maxY);
+
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
         });
 
-        // What happens when she clicks "Yes"
+
+        // --- "Yes" Button Logic ---
         yesBtn.addEventListener('click', () => {
-            questionText.innerHTML = "YAY! I love you! ❤️";
-            displayGif.src = "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm51JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/lTQF0ODLLJHza/giphy.gif"; // Success GIF
-            noBtn.style.display = 'none'; // Hide the No button
+            // 1. Change Content
+            questionText.innerHTML = successMessage;
+            displayGif.src = successGifUrl;
+
+            // 2. Hide No Button
+            noBtn.style.display = 'none';
+            yesBtn.style.display = 'none'; // Optional: hide Yes button too or keep it
+
+            // 3. Confetti Explosion
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#ff4d6d', '#ff8fa3', '#ffffff']
+            });
+
+            // Continuous fireworks for a few seconds
+            let duration = 3 * 1000;
+            let animationEnd = Date.now() + duration;
+            let defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+            let interval = setInterval(function () {
+                let timeLeft = animationEnd - Date.now();
+
+                if (timeLeft <= 0) {
+                    return clearInterval(interval);
+                }
+
+                let particleCount = 50 * (timeLeft / duration);
+
+                // since particles fall down, start a bit higher than random
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+            }, 250);
         });
+
+        function randomInRange(min, max) {
+            return Math.random() * (max - min) + min;
+        }
+
+        // --- Background Hearts ---
+        function initFloatingHearts() {
+            for (let i = 0; i < 20; i++) {
+                createHeart();
+            }
+        }
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 5 + 5 + 's'; // 5-10s
+            heart.style.fontSize = Math.random() * 1 + 0.5 + 'rem'; // 0.5-1.5rem
+
+            heartsContainer.appendChild(heart);
+
+            // Remove after animation (simple approximations)
+            setTimeout(() => {
+                heart.remove();
+                createHeart(); // Keep creating them
+            }, 10000);
+        }
+
     </script>
 </body>
 
